@@ -19,7 +19,7 @@ typedef struct arvore{
 /**
 *	Função auxiliar para troca de informações entre nós
 */
-void troca_infos(no_abb *primeiro, no_abb *segundo) {
+void troca_infos(no_abb *primeiro, no_abb *segundo){
     int id = primeiro->id;
     char produto[50];
     strcpy(produto, primeiro->produto);
@@ -37,12 +37,10 @@ no_abb* insere_no(no_abb *atual, no_abb *novo){
 	if(atual == NULL){
 		//Não há mais continuidade na árvore e, portanto, o nó novo é retornado como nó filho para o nó anterior. 
 		return novo;
-	}else if(atual->id > novo->id)
-	{
+	}else if(atual->id > novo->id){
 		// se a id do nó atual é maior que o do novo nó, então o novo nó deve ser alocado em sua ramificação esquerda. 
 		atual->esq = insere_no(atual->esq, novo);
-	}else
-	{
+	}else{
 		// se a id for menor, então o novo nó eerá adicionado na ramificação direita.
 		atual->dir = insere_no(atual->dir, novo);
 	}
@@ -53,8 +51,7 @@ no_abb* insere_no(no_abb *atual, no_abb *novo){
 /**
 *	Função para buscar o nó de menor id.
 */
-no_abb* busca_menor_no(no_abb *raiz)
-{
+no_abb* busca_menor_no(no_abb *raiz){
 	no_abb *atual = raiz;
 	while(atual->esq!=NULL){atual = atual->esq;}
 	return atual;
@@ -63,8 +60,7 @@ no_abb* busca_menor_no(no_abb *raiz)
 /**
 *	Função para buscar o nó de maior id.
 */
-no_abb* busca_maior_no(no_abb *raiz)
-{
+no_abb* busca_maior_no(no_abb *raiz){
 	no_abb *atual = raiz;
 	while(atual->dir!=NULL){atual = atual->dir;}
 	return atual;
@@ -75,14 +71,12 @@ no_abb* busca_maior_no(no_abb *raiz)
 *	Funções de busca por um nó especificado pelo usuário, respectivamente recursiva e iterativa
 */
 no_abb* busca_no_rec(no_abb *atual, int alvo){
-	if(atual->id == alvo)
-	{
+	if(atual==NULL){return atual;}
+	else if(atual->id == alvo){
 		return atual;
-	}else if(atual->id > alvo)
-	{
+	}else if(atual->id > alvo){
 		return busca_no_rec(atual->esq, alvo);
-	}else
-	{
+	}else{
 		return busca_no_rec(atual->dir, alvo);	
 	}
 }
@@ -90,13 +84,10 @@ no_abb* busca_no_rec(no_abb *atual, int alvo){
 
 no_abb* busca_no_it(no_abb *raiz, int alvo){
 	no_abb *atual = raiz;
-	while(atual!=NULL && atual->id!=alvo)
-	{
-		if(atual->id > alvo)
-		{
+	while(atual!=NULL && atual->id!=alvo){
+		if(atual->id > alvo){
 			atual = atual->esq;
-		}else if(atual->id < alvo)
-		{
+		}else if(atual->id < alvo){
 			atual = atual->dir;
 		}
 	}
@@ -107,17 +98,14 @@ no_abb* busca_no_it(no_abb *raiz, int alvo){
 /**
 *	Função recursiva para remoção de nós
 */
-no_abb* remove_no(no_abb *atual, int alvo)
-{
+no_abb* remove_no(no_abb *atual, int alvo){
 	no_abb *auxiliar;
 	if(atual == NULL){return atual;} //Se o nó não for encontrado, apenas retorna o atual que no caso terá valor NULL.
 	else if(atual->id == alvo){
-		if(atual->esq == NULL && atual->dir == NULL) //Se for um nó folha:
-		{
+		if(atual->esq == NULL && atual->dir == NULL){ //Se for um nó folha:
 			free(atual); // O nó é removido;
 			return NULL; // A função retorna NULL.
-		}else if( (atual->esq != NULL && atual->dir == NULL) || (atual->esq == NULL && atual->dir != NULL)) // Se tiver apenas 1 filho:
-		{
+		}else if( (atual->esq != NULL && atual->dir == NULL) || (atual->esq == NULL && atual->dir != NULL)){ // Se tiver apenas 1 filho:
 			if(atual->dir == NULL){auxiliar = atual->esq;} // Salva o nó filho;
 			else{auxiliar = atual->dir;}
 			free(atual); // Elimina o nó alvo;
@@ -127,22 +115,18 @@ no_abb* remove_no(no_abb *atual, int alvo)
 			troca_infos(atual, auxiliar); //Troca as informações entre os dois nós selecionados (id, produto);
 			atual->dir = remove_no(atual->dir, alvo); //Retoma a busca pelo nó a ser removido na ramificação da direita.  
 		}
-	}else if(atual->id > alvo)
-	{
+	}else if(atual->id > alvo){
 		atual->esq = remove_no(atual->esq, alvo);
-	}else 
-	{
+	}else{
 		atual->dir = remove_no(atual->dir, alvo);	
 	}
-
 	return atual;
 }
 
 /**
 *	Função para criação de nó
 */
-no_abb* cria_no(int id, char produto[50])
-{
+no_abb* cria_no(int id, char produto[50]){
 	no_abb* novo = (no_abb*)malloc(sizeof(no_abb));
 	novo->id = id;
 	strcpy(novo->produto, produto);
@@ -154,8 +138,7 @@ no_abb* cria_no(int id, char produto[50])
 /**
 *	Função para mostrar os elementos da árvore
 */
-void apresenta_abb(no_abb *raiz)
-{
+void apresenta_abb(no_abb *raiz){
 	if(raiz!=NULL){
 		cout << "( " << raiz->id << " ";
 		apresenta_abb(raiz->esq);
@@ -165,7 +148,7 @@ void apresenta_abb(no_abb *raiz)
 }
 
 
-int main() {
+int main(){
     abb arvore;
     arvore.raiz = NULL;
 
